@@ -22,11 +22,6 @@ class Initialization(Cog):
         for guild in guilds:
             self.Log.debug(f"Connected to Guild: {guild} ")
 
-    # Default Vesion Command
-    @commands.command()
-    async def Initialization_version(self, ctx):
-        await ctx.send(f"[Initialization] - version: {__version__}")
-        self.Log.debug(f'Bot started {datetime.now()}')
 
 def setup(bot):
     bot.add_cog(Initialization(bot))
