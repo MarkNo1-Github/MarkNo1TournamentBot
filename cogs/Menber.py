@@ -15,9 +15,15 @@ class Menber(Cog):
 
     @commands.command()
     @commands.guild_only()
-    async def joined(self, ctx, *, member: discord.Member):
+    async def joined(self, ctx, *, member: discord.Member=None):
         """Says when a member joined."""
-        await ctx.send(f'{member.display_name} joined on {member.joined_at}')
+        if not member:
+            member = ctx.author
+
+        embed = discord.Embed(title='Joined:', description=ctx.guild.name, colour=member.colour)
+        embed.set_author(icon_url=member.avatar_url, name=str(member))
+        embed.add_field(name='\uFEFF', value=f'{member.display_name} joined on {member.joined_at}')
+        await ctx.send(content=None, embed=embed)
 
     @commands.command(name='top_role', aliases=['toprole'])
     @commands.guild_only()
@@ -49,11 +55,6 @@ class Menber(Cog):
         embed.add_field(name='\uFEFF', value=perms)
 
         await ctx.send(content=None, embed=embed)
-        # Thanks to Gio for the Command.
 
-
-# The setup fucntion below is neccesarry. Remember we give bot.add_cog()
-# the name of the class in this case MembersCog.
-# When we load the cog, we use the name of the file.
 def setup(bot):
     bot.add_cog(Menber(bot))
