@@ -1,0 +1,5 @@
+discord.py[voice]
+python-dotenv
+pandas
+tabulate
+youtube_dl

@@ -18,13 +18,15 @@ class ExampleDataManager(Cog):
 
     # Events
     @commands.command()
-    async def testdb(self, ctx, *args):
+    async def add_data(self, ctx, *args):
+        """Create an entry in the pandas dataframe"""
         self.dm.add(ExampleDataManager.DataRecord(ctx.author.name, ctx.author.id))
         await ctx.send(Success(f'You discovered the secret power ! Congrats {ctx.author.name} !'))
 
     # Events
     @commands.command()
-    async def savedb(self, ctx, *args):
+    async def save_data(self, ctx, *args):
+        """Save dataframe to hdf5 cool"""
         self.dm.save()
         await ctx.send(Success(f'Saved!'))
         cmd = self.bot.get_command('show_ExampleDataManager')
@@ -34,13 +36,15 @@ class ExampleDataManager(Cog):
 
     # Events
     @commands.command()
-    async def loaddb(self, ctx, *args):
+    async def load_data(self, ctx, *args):
+        """Raed dataframe from file.hdf5 cool 2"""
         self.dm.load()
         await ctx.send(Success(f'Loaded!'))
 
     # Events
     @commands.command()
-    async def show_ExampleDataManager(self, ctx, *args):
+    async def show_data(self, ctx, *args):
+        """Show Current Data"""
         await ctx.send(Success("```" + f'\n\n{tabulate(self.dm.data, headers="keys", tablefmt="plain")}' + "```"))
 
     class DataRecord(IData):

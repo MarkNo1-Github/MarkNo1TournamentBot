@@ -32,7 +32,5 @@ class Welcome(Cog):
             self._last_member = member
 
 
-
-
 def setup(bot):
     bot.add_cog(Welcome(bot))
