@@ -15,6 +15,7 @@ class Initialization(Cog):
     # Events
     @Cog.listener()
     async def on_ready(self):
+        print("**** ONLINE ****")
         self.Log.debug(f'Bot started {datetime.now()}')
         self.Log.debug(f'Name: {self.bot.user.name}')
         self.Log.debug(f'ID: {self.bot.user.id}')

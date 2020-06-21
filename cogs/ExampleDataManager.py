@@ -1,29 +1,24 @@
 from tdbm.logger import GetFileLogger, Success, Error
-from tdbm.data import DataManger, IData
+from tdbm.data import DataManager, IData
 from discord.ext.commands import Cog
 from discord.ext import commands
 from datetime import datetime
-
+from tabulate import tabulate
 
 __version__ = '0.0.1'
 
-class DataRecord(IData):
-    def __init__(self, name, id):
-        super().__init__(name)
-        self.name = name
-        self.id = id
+
 
 
 class ExampleDataManager(Cog):
     def __init__(self, bot):
-        self.bot = bot
         self.Log = GetFileLogger('logs', __name__)
-        self.dm = DataManger('exampleDataManager', DataRecord)
+        self.dm = DataManager('exampleDataManager', IData)
 
     # Events
     @commands.command()
     async def test_ExampleDataManager(self, ctx, *args):
-        self.dm.add(DataRecord(ctx.author.name, ctx.author.id))
+        self.dm.add(IData(ctx.author.name))
         await ctx.send(Success(f'You discovered the secret power ! Congrats {ctx.author.name} !'))
 
     # Events
@@ -41,8 +36,9 @@ class ExampleDataManager(Cog):
     # Events
     @commands.command()
     async def show_ExampleDataManager(self, ctx, *args):
-        for d in self.data:
-            await ctx.send(Success(f'{d}'))
+        await ctx.send(Success(f'\n\n{tabulate(self.dm.data, headers="keys", tablefmt="plain")}'))
+
+
 
 
 def setup(bot):
