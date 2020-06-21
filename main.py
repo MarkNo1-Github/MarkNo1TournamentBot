@@ -13,4 +13,3 @@ def get_config():
 if __name__ == '__main__':
     mybot = Main(get_config())
     mybot.run()
-

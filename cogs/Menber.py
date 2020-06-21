@@ -1,4 +1,4 @@
-from tdb.logger import GetLogger
+from tdb.logger import GetFileLogger
 from discord.ext.commands import Cog
 from discord.ext import commands
 from datetime import datetime
@@ -11,7 +11,7 @@ __version__ = '0.0.1'
 class Menber(Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.Log = GetLogger('logs', __name__)
+        self.Log = GetFileLogger('logs', __name__)
 
     @commands.command()
     @commands.guild_only()

@@ -1,4 +1,4 @@
-from tdbm.logger import GetLogger, Success, Error
+from tdbm.logger import GetFileLogger, Success, Error
 from discord.ext.commands import Cog
 from discord.ext import commands
 from string import Template
@@ -10,7 +10,7 @@ __version__ = '0.0.2'
 class CogsManager(Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.Log = GetLogger('logs', __name__)
+        self.Log = GetFileLogger('logs', __name__)
 
     async def lets_try_do(self, fx, ext, ctx, succ, err):
         ext = f'cogs.{ext}'
