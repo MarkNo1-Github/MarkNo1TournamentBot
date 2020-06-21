@@ -12,6 +12,7 @@ __version__ = '0.0.1'
 class ExampleDataManager(Cog):
 
     def __init__(self, bot):
+        self.bot = bot
         self.Log = GetFileLogger('logs', __name__)
         self.dm = DataManager('exampleDataManager', ExampleDataManager.DataRecord)
 
@@ -26,6 +27,10 @@ class ExampleDataManager(Cog):
     async def savedb(self, ctx, *args):
         self.dm.save()
         await ctx.send(Success(f'Saved!'))
+        cmd = self.bot.get_command('show_ExampleDataManager')
+        print(cmd)
+        await ctx.invoke(cmd)
+
 
     # Events
     @commands.command()
