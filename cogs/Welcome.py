@@ -31,5 +31,8 @@ class Welcome(Cog):
             self.Log.info(f'Said hi again to {member.mention}')
             self._last_member = member
 
+
+
+
 def setup(bot):
     bot.add_cog(Welcome(bot))

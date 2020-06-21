@@ -52,6 +52,13 @@ class CogsManager(Cog):
 
 
     @commands.command()
+    @commands.is_owner()
+    async def clear(self, ctx, x):
+        await ctx.channel.purge(limit=int(x))
+        await ctx.send(f'Deleting {x} message')
+
+
+    @commands.command()
     async def reload(self, ctx, extension):
         """Reload a Cog extension runtime."""
         await self.unload(ctx, extension)
