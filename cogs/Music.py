@@ -1,12 +1,14 @@
-from tdbm.logger import GetFileLogger
+from tdbm.logger import GetFileLogger, Success, Error
 import  discord
 from discord.ext.commands import Cog
 from discord.ext import commands
 from datetime import datetime
+from youtube_search import YoutubeSearch
+from tabulate import tabulate
 import asyncio
 import youtube_dl
-
-
+import pandas as pd
+from time import sleep
 
 __version__ = '0.0.1'
 
@@ -110,6 +112,7 @@ class Music(Cog):
 
         await ctx.send('Now playing: {}'.format(player.title))
 
+
     @commands.command()
     async def volume(self, ctx, volume: int):
         """Changes the player's volume"""
@@ -120,11 +123,28 @@ class Music(Cog):
         ctx.voice_client.source.volume = volume / 100
         await ctx.send("Changed volume to {}%".format(volume))
 
+
+    @commands.command()
+    async def search(self, ctx, *args):
+        """Search for youtube urls"""
+        try:
+            pre_data = []
+            while len(pre_data) == 0:
+                pre_data = YoutubeSearch(f'search {"".join(args)}', max_results=5).to_dict()
+                sleep(0.2)
+            data = pd.DataFrame(pre_data)
+            data = data.drop(columns=['id', 'channel_name', 'channel_link'])
+            print(data)
+            await ctx.send(Success("```" + f'\n\n{tabulate(data, headers="keys", tablefmt="rst")}' + "```"))
+
+        except Exception as e:
+            await ctx.send(Error(f"Exception: {e}"))
+
     @commands.command()
     async def stop(self, ctx):
         """Stops and disconnects the bot from voice"""
-
         await ctx.voice_client.disconnect()
+
 
     @play.before_invoke
     @yt.before_invoke
