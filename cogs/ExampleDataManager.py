@@ -9,36 +9,40 @@ __version__ = '0.0.1'
 
 
 
-
 class ExampleDataManager(Cog):
+
     def __init__(self, bot):
         self.Log = GetFileLogger('logs', __name__)
-        self.dm = DataManager('exampleDataManager', IData)
+        self.dm = DataManager('exampleDataManager', ExampleDataManager.DataRecord)
 
     # Events
     @commands.command()
-    async def test_ExampleDataManager(self, ctx, *args):
-        self.dm.add(IData(ctx.author.name))
+    async def testdb(self, ctx, *args):
+        self.dm.add(ExampleDataManager.DataRecord(ctx.author.name, ctx.author.id))
         await ctx.send(Success(f'You discovered the secret power ! Congrats {ctx.author.name} !'))
 
     # Events
     @commands.command()
-    async def save_ExampleDataManager(self, ctx, *args):
+    async def savedb(self, ctx, *args):
         self.dm.save()
         await ctx.send(Success(f'Saved!'))
 
     # Events
     @commands.command()
-    async def load_ExampleDataManager(self, ctx, *args):
+    async def loaddb(self, ctx, *args):
         self.dm.load()
         await ctx.send(Success(f'Loaded!'))
 
     # Events
     @commands.command()
     async def show_ExampleDataManager(self, ctx, *args):
-        await ctx.send(Success(f'\n\n{tabulate(self.dm.data, headers="keys", tablefmt="plain")}'))
+        await ctx.send(Success("```" + f'\n\n{tabulate(self.dm.data, headers="keys", tablefmt="plain")}' + "```"))
 
-
+    class DataRecord(IData):
+        def __init__(self, name, id):
+            super().__init__(name)
+            self.name = name
+            self.id = id
 
 
 def setup(bot):
